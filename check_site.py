@@ -44,10 +44,12 @@ for path, page in pages.items():
         if parsed.fragment and target.suffix == '.html':
             assert parsed.fragment in pages[target].ids, f'Broken anchor: {path}: {link}'
     if path.parent.name in ('shaker', 'frames', 'grooved'):
-        assert len(page.previews) == 10, f'Missing room or door views: {path}'
+        assert len(page.previews) == 15, f'Missing room or door views: {path}'
         assert {'view-barn-closed', 'view-barn-part-open', 'view-barn-open'} <= page.previews
+        assert {'view-hallway-rear', 'view-hallway-bathroom', 'view-hallway-photos',
+                'view-hallway-entrance', 'view-hallway-bedroom'} <= page.previews
         for preview in page.previews:
             assert '#'+preview in page.links, f'Preview cannot be selected: {path}: {preview}'
 assert len(pages) == 4
 assert (ROOT/'assets/hallway-panelling-materials-and-cuts.pdf').read_bytes().startswith(b'%PDF-')
-print(f'PASS: {len(pages)} pages; all local links, assets, anchors and 30 previews')
+print(f'PASS: {len(pages)} pages; all local links, assets, anchors and 45 previews')
