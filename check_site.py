@@ -52,4 +52,9 @@ for path, page in pages.items():
             assert '#'+preview in page.links, f'Preview cannot be selected: {path}: {preview}'
 assert len(pages) == 4
 assert (ROOT/'assets/hallway-panelling-materials-and-cuts.pdf').read_bytes().startswith(b'%PDF-')
-print(f'PASS: {len(pages)} pages; all local links, assets, anchors and 45 previews')
+marking_pdf = 'assets/fine-moulded-frames-wall-marking-pack.pdf'
+assert (ROOT/marking_pdf).read_bytes().startswith(b'%PDF-')
+frames = pages[(ROOT/'frames/index.html').resolve()]
+assert '../'+marking_pdf in frames.links, 'Wall-marking PDF is not linked from the frame page'
+assert '700 / 800 mm' in frames.path.read_text(), 'Rounded frame heights are missing'
+print(f'PASS: {len(pages)} pages; all local links, assets, anchors, 45 previews and wall-marking PDF')
